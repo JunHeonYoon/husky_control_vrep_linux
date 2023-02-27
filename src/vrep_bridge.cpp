@@ -108,7 +108,8 @@ Eigen::Matrix<double, DOF, 1> VRepBridge::IK(const Eigen::Matrix<double, 2, 1> &
 {
 	double wheel_separation = 0.5708;
 	double wheel_radius = 0.1651;
-	double wheel_separation_multiplier = 1.875;
+	// double wheel_separation_multiplier = 1.875;
+	double wheel_separation_multiplier = 1.0;
 	double wheel_radius_multiplier = 1.0;
 
 	double max_lin_vel = 1.0;
@@ -121,7 +122,7 @@ Eigen::Matrix<double, DOF, 1> VRepBridge::IK(const Eigen::Matrix<double, 2, 1> &
 	double right_wheel_vel = (target_lin_vel + target_ang_vel * (wheel_separation*wheel_separation_multiplier)/2 ) / (wheel_radius*wheel_radius_multiplier);
 
 	Eigen::Matrix<double, DOF, 1> desired_wheel_vel;
-	desired_wheel_vel << left_wheel_vel, right_wheel_vel, left_wheel_vel, right_wheel_vel;
+	desired_wheel_vel << left_wheel_vel, right_wheel_vel, left_wheel_vel, right_wheel_vel, left_wheel_vel, right_wheel_vel;
 	
 	return desired_wheel_vel;
 }
@@ -154,6 +155,9 @@ void VRepBridge::getHandle()
 	const string joint_name2 = "front_right_wheel";
 	const string joint_name3 = "rear_left_wheel";
 	const string joint_name4 = "rear_right_wheel";
+	const string joint_name5 = "virtual_left_wheel";
+	const string joint_name6 = "virtual_right_wheel";
+
 
 	cout << "[INFO] Getting a handle named " << base_name << endl;
 	simxErrorCheck(simxGetObjectHandle(clientID_, base_name.c_str(), &baseHandle_, simx_opmode_oneshot_wait));
@@ -165,6 +169,10 @@ void VRepBridge::getHandle()
 	simxErrorCheck(simxGetObjectHandle(clientID_, joint_name3.c_str(), &motorHandle_[2], simx_opmode_oneshot_wait));
 	cout << "[INFO] Getting a handle named " << joint_name4 << endl;
 	simxErrorCheck(simxGetObjectHandle(clientID_, joint_name4.c_str(), &motorHandle_[3], simx_opmode_oneshot_wait));
+	cout << "[INFO] Getting a handle named " << joint_name5 << endl;
+	simxErrorCheck(simxGetObjectHandle(clientID_, joint_name5.c_str(), &motorHandle_[4], simx_opmode_oneshot_wait));
+	cout << "[INFO] Getting a handle named " << joint_name6 << endl;
+	simxErrorCheck(simxGetObjectHandle(clientID_, joint_name6.c_str(), &motorHandle_[5], simx_opmode_oneshot_wait));
 
 	cout << "[INFO] The handle has been imported." << endl;
 }

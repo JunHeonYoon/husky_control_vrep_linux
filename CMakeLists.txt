@@ -31,7 +31,8 @@ set (SOURCES
 
 add_executable(husky_control_vrep ${SOURCES})
 
-add_definitions(-DDOF=4)
+# add_definitions(-DDOF=4)
+add_definitions(-DDOF=6) # 4 are visual, 2 are virtual
 
 target_link_libraries(husky_control_vrep
 	${RBDL_LIBRARY}
