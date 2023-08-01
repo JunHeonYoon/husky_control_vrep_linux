@@ -68,8 +68,17 @@ int main()
 			switch (key)
 			{
 				// Implement with user input
+			// case '1':
+			// 	mc.setMode("velocity_command");
+			// 	break;
 			case '1':
-				mc.setMode("velocity_command");
+				mc.setMode("Kanayama_circle");
+				break;
+			case '2':
+				mc.setMode("Kanayama_square");
+				break;
+			case '3':
+				mc.setMode("Kanayama_eight");
 				break;
 			case '\t':
 				if (is_simulation_run) {
