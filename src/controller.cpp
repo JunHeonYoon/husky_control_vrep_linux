@@ -38,6 +38,18 @@ void MobileController::compute()
 	{
 		KanayamaController(EIGHT);
 	}
+	else if(control_mode_ == "Velocity_circle")
+	{
+		VelocityController(CIRCLE);
+	}
+	else if(control_mode_ == "Velocity_square")
+	{
+		VelocityController(SQUARE);
+	}
+	else if(control_mode_ == "Velocity_eight")
+	{
+		VelocityController(EIGHT);
+	}
 	else
 	{
 		vel_desired_.setZero();
@@ -65,7 +77,7 @@ void MobileController::printState()
 	// TODO: Modify this method to debug your code
 
 	static int DBG_CNT = 0;
-	if (DBG_CNT++ > hz_ / 50.)
+	if (DBG_CNT++ > hz_ / 5.)
 	{
 		DBG_CNT = 0;
 
@@ -98,7 +110,7 @@ void MobileController::setDesiredVelocity(const Vector2d & desired_vel, double d
 
 void MobileController::KanayamaController(const int traj_type)
 {
-	unsigned long time_index = tick_ - control_start_tick_;
+	unsigned long int time_index = tick_ - control_start_tick_;
 	if(time_index >= traj_[traj_type].rows()) time_index = traj_[traj_type].rows() - 1;
 	
 	double Kx = 9;
@@ -127,6 +139,18 @@ void MobileController::KanayamaController(const int traj_type)
 	// opt_velocity(1) = ref_vel(2);
 
 	vel_desired_ = opt_velocity;
+
+	record(traj_type, double(traj_[traj_type].rows() / hz_));
+}
+
+void MobileController::VelocityController(const int traj_type)
+{
+	unsigned long int time_index = tick_ - control_start_tick_;
+	if(time_index >= traj_[traj_type].rows()) time_index = traj_[traj_type].rows() - 1;
+
+	vel_desired_[0] = traj_[traj_type](time_index, 3);
+	vel_desired_[1] = traj_[traj_type](time_index, 5);
+
 
 	record(traj_type, double(traj_[traj_type].rows() / hz_));
 }

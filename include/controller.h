@@ -40,6 +40,7 @@ private:
 	void printState();
 	void setDesiredVelocity(const Vector2d & desired_vel, double duration);
 	void KanayamaController(const int traj_type);
+	void VelocityController(const int traj_type);
 
 public:
 	void readData(const Vector3d &pose, const Vector2d &velocity);
@@ -64,7 +65,7 @@ private:
 	constexpr static int NUM_PLOT{20};
 	ofstream plot_files_[NUM_PLOT];
 	const string plot_file_names_[NUM_PLOT]
-	{"circle, square, eight"};
+	{"circle", "square", "eight"};
 	constexpr static int NUM_TRAJ_FILE{3};
 	const string traj_file_names_[NUM_TRAJ_FILE]
 	{"circle", "square", "eight"}; 
